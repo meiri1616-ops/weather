@@ -39,6 +39,7 @@ import { CITIES_DATA, findCuratedCity } from "./citiesData";
 import ScenicLandmark from "./components/ScenicLandmark";
 import AtmosphericGradientLayer from "./components/AtmosphericGradientLayer";
 import WeatherParticleLayer from "./components/WeatherParticleLayer";
+import WeatherOwl from "./components/WeatherOwl";
 
 type RightDrawerTab = "landmark" | "forecast" | "itinerary" | "chat";
 
@@ -531,14 +532,26 @@ export default function App() {
         landmarkId={activeCity.landmarkSvgId}
         cityName={activeCity.name}
         condition={weatherMetrics.conditionType}
-        windSpeed={weatherMetrics.windSpeed}
       />
 
       {/* Layer 2: Dynamic Atmospheric Radial Gradient Transition */}
       <AtmosphericGradientLayer condition={weatherMetrics.conditionType} />
 
-      {/* Layer 3: Global Weather Particle Overlay driven by live weather */}
-      <WeatherParticleLayer condition={weatherMetrics.conditionType} />
+      {/* Layer 3: Global Weather Particle Overlay driven by live weather & wind turbulence */}
+      <WeatherParticleLayer
+        condition={weatherMetrics.conditionType}
+        windSpeed={weatherMetrics.windSpeed}
+      />
+
+      {/* Flying Cartoon Owl Weather Companion */}
+      <WeatherOwl
+        cityName={activeCity.name}
+        weather={weatherMetrics}
+        forecast={forecastDays}
+        drawerOpen={leftDrawerOpen || rightDrawerOpen}
+        onOpenItinerary={() => openRightDrawerTab("itinerary")}
+        onOpenChat={() => openRightDrawerTab("chat")}
+      />
 
       {/* Camera Shutter Flash overlay */}
       <AnimatePresence>
@@ -625,32 +638,6 @@ export default function App() {
             >
               <Calendar className="w-3.5 h-3.5 text-sky-400" />
               <span className="hidden lg:inline">七日预报</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => openRightDrawerTab("itinerary")}
-              className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-medium border transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
-                rightDrawerOpen && activeTab === "itinerary"
-                  ? "bg-teal-500/20 border-teal-400 text-teal-200"
-                  : "bg-white/5 hover:bg-white/10 border-white/10 text-slate-200"
-              }`}
-            >
-              <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-              <span className="hidden sm:inline">AI 行程</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => openRightDrawerTab("chat")}
-              className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl text-xs font-medium border transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
-                rightDrawerOpen && activeTab === "chat"
-                  ? "bg-teal-500/20 border-teal-400 text-teal-200"
-                  : "bg-white/5 hover:bg-white/10 border-white/10 text-slate-200"
-              }`}
-            >
-              <MessageSquare className="w-3.5 h-3.5 text-indigo-400" />
-              <span className="hidden sm:inline">AI 导游</span>
             </button>
           </div>
         </div>
