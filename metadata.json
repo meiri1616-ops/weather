@@ -1,0 +1,6 @@
+{
+  "name": "Weather City Explorer",
+  "description": "一个集成标志地标与天气动效、实时气象模拟、酒店预订、周边游推荐以及智能AI行程规划的创意天气旅行应用。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
